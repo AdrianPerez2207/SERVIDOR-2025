@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
-    <header class="bg-dark d-flex justify-content-center align-items-center p-3">
+    <header class="bg-dark d-flex justify-content-center align-items-center p-5">
         <img src="https://www.metrothegame.com/themes/metro/dist/img/general/logo.png" alt="">
     </header>
 
@@ -27,7 +27,7 @@
             function pintarPersonajes($personajes){
                 foreach($personajes as $personaje){
                     echo "<div class='col-12 col-sm-6 col-md-6 col-xl-4 mb-4'>";
-                        echo "<div class='card shadow-lg bg-dark-subtle' style='width: 18rem; '>";
+                        echo "<div class='card shadow-lg bg-dark-subtle mx-auto' style='width: 18rem; height: 27rem;'>";
                                 echo "<img src='".$personaje["imagen"]."'>";
                             echo "<div class='card-body'>";
                                 echo "<h1 class='card-title text-warning-emphasis fw-bold'>".$personaje["nombre"]."</h1>";
@@ -46,7 +46,7 @@
         </div>
     </main>
 
-    <footer class="bg-dark text-white d-flex justify-content-center align-items-center p-3">
+    <footer class="bg-dark text-white d-flex justify-content-center align-items-center p-3 border-top border-white">
         <strong>Creado por ADRIÁN PÉREZ SÁNCHEZ</strong>
     </footer>
 

@@ -6,7 +6,7 @@ services:
     container_name: nginx
     image: nginx:latest
     ports:
-      - "8080:80"
+      - "8081:80"
     volumes:
       - ./source/:/var/www/
       - ./nginx.php-fpm.conf:/etc/nginx/nginx.conf:ro
