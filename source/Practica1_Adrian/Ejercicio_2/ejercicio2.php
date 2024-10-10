@@ -36,7 +36,7 @@
                     echo "<div class='row row-cols-4  border border-black'>";
                         foreach($libros as $libro){
                             if($libro["categoria"] == $categoria) {
-                                echo "<div class='col border border-black p-2 bg-white'>";
+                                echo "<div class='col border border-black p-2 bg-light'>";
                                     echo "<img src='{$libro["foto"]}' alt='Foto de {$libro["titulo"]}' width='100' height='150' class='mb-2'>";
                                     echo "<p class='border-top border-black mt-3'>{$libro["descripcion"]}</p>";
                                     echo "<h3 class='mt-3'>{$libro["titulo"]}</h3>";
