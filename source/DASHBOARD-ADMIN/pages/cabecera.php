@@ -45,12 +45,28 @@
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
                     </div>
-                    <span class="nav-link-text ms-1">Tables</span>
+                    <span class="nav-link-text ms-1">Proyectos</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white active bg-gradient-primary" href="proyectos.php">
+                    <div class="text-white text-center me-2 mb-1 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">+</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Añadir Proyecto</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white active bg-gradient-primary" href="proyectos.php">
+                    <div class="text-white text-center me-2 mb-1 d-flex align-items-center justify-content-center">
+                        <i class="material-icons opacity-10">-</i>
+                    </div>
+                    <span class="nav-link-text ms-1">Eliminar Proyecto</span>
                 </a>
             </li>
         </ul>
     </div>
-    </div>
+
 </aside>
 <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
     <!-- Navbar -->
