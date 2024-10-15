@@ -26,6 +26,7 @@
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
     <!-- <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script> -->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -54,14 +55,6 @@
                         <i class="material-icons opacity-10">+</i>
                     </div>
                     <span class="nav-link-text ms-1">Añadir Proyecto</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href="proyectos.php">
-                    <div class="text-white text-center me-2 mb-1 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">-</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Eliminar Proyecto</span>
                 </a>
             </li>
         </ul>
