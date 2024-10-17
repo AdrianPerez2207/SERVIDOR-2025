@@ -53,5 +53,27 @@
         }
             $_SESSION["proyectos"] = array_values($_SESSION["proyectos"]);
             header("Location: proyectos.php");
-        }
+    }
+
+    /** Le pasamos todos los datos por parámetro y los añadimos a un nuevo array, luego los guardamos en la sesión
+     * @param $id
+     * @param $nombre
+     * @param $fechaInicio
+     * @param $fechaFinPrevista
+     * @param $porcentajeCompletado
+     * @param $importancia
+     * @return void
+     */
+    function añadirProyecto($id, $nombre, $fechaInicio, $fechaFinPrevista, $porcentajeCompletado, $importancia){
+        $proyectoNuevo = array(
+          "id" => $id,
+          "nombre" => $nombre,
+          "fechaInicio" => $fechaInicio,
+          "fechaFinPrevista" => $fechaFinPrevista,
+          "diasTranscurridos" => calcularDiasTranscurridos($fechaInicio),
+          "porcentajeCompletado" => $porcentajeCompletado,
+          "importancia" => $importancia
+        );
+
+        $_SESSION["proyectos"][] = $proyectoNuevo;
     }
