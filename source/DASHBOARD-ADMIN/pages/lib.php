@@ -40,22 +40,27 @@
     }
 
     /**
-     * Buscamos la posición del elemento y lo eliminamos. AL quedar un espacio vacío dentro del array debemos de
-     * volver a numerar los elementos y quitar los espacios vacíos con array_values.
+     * Buscamos la posición del elemento, en una variable guardamos la clave (posicion).
+     * Después borramos el elemento.
+     * AL quedar un espacio vacío dentro del array debemos de
+     * Volver a numerar los elementos y quitar los espacios vacíos con array_values.
      * @param $id
      * @return void
      */
     function eliminarProyecto($id){
-        foreach ($_SESSION["proyectos"] as $proyecto) {
+        $posicionProyecto = "";
+        foreach ($_SESSION["proyectos"] as $key => $proyecto) {
             if ($proyecto['id'] == $id) {
-                unset($_SESSION["proyectos"][$proyecto]);
+                $posicionProyecto = $key;
+                break;
             }
         }
-            $_SESSION["proyectos"] = array_values($_SESSION["proyectos"]);
-            header("Location: proyectos.php");
+        unset($_SESSION["proyectos"][$posicionProyecto]);
+        $_SESSION["proyectos"] = array_values($_SESSION["proyectos"]);
+        header("Location: proyectos.php");
     }
 
-    /** Le pasamos todos los datos por parámetro y los añadimos a un nuevo array, luego los guardamos en la sesión
+    /** Le pasamos todos los datos por parámetro y los añadimos a un nuevo array, luego los guardamos en la sesión.
      * @param $id
      * @param $nombre
      * @param $fechaInicio
@@ -64,7 +69,10 @@
      * @param $importancia
      * @return void
      */
-    function añadirProyecto($id, $nombre, $fechaInicio, $fechaFinPrevista, $porcentajeCompletado, $importancia){
+    function addProyecto($id, $nombre, $fechaInicio, $fechaFinPrevista, $porcentajeCompletado, $importancia){
+        if (!isset($_SESSION["proyectos"])) {
+            $_SESSION["proyectos"] = array();
+        }
         $proyectoNuevo = array(
           "id" => $id,
           "nombre" => $nombre,
@@ -76,4 +84,25 @@
         );
 
         $_SESSION["proyectos"][] = $proyectoNuevo;
+    }
+
+    /** Ponemos la sesión de los proyectos a null.
+     * @return void
+     */
+    function eliminarTodos(){
+        unset($_SESSION["proyectos"]);
+    }
+
+    function cerrarSesion(){
+        session_destroy();
+    }
+
+    //Buscamos el proyecto con el id que le pasamos por parámetro.
+    function buscarProyecto($id){
+        foreach ($_SESSION["proyectos"] as $proyecto) {
+            if ($id == $proyecto["id"]) {
+                return $proyecto;
+            }
+        }
+        return null;
     }

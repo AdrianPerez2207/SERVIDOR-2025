@@ -23,44 +23,52 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Porcentaje Completado</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Importancia</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Eliminar Proyecto</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Ver Proyecto</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                        foreach ($_SESSION["proyectos"] as $proyecto) {
-                            echo ("<tr>
-                                      <td>
-                                          <h6 class='mb-0 text-sm'>{$proyecto['nombre']}</h6>
-                                      </td>
-                                      <td>
-                                        <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaInicio']}</p>
-                                      </td>
-                                      <td>
-                                        <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaFinPrevista']}</p>
-                                      </td>
-                                      <td class='align-middle'>
-                                        <p class='text-center text-sm font-weight-bold mb-0'>{$proyecto['diasTranscurridos']}</p>
-                                      </td>
-                                        <td class='align-middle text-center'>
-                                            <div class='d-flex align-items-center justify-content-center'>
-                                                <span class='me-2 text-xs font-weight-bold'>{$proyecto['porcentajeCompletado']}</span>
-                                                <div>
-                                                    <div class='progress'>
-                                                        <div class='progress-bar bg-gradient-info' role='progressbar'
-                                                         aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: {$proyecto['porcentajeCompletado']};'></div>
+                        if (isset($_SESSION["usuario"])) {
+                            foreach ($_SESSION["proyectos"] as $proyecto) {
+                                echo("<tr>
+                                          <td>
+                                              <h6 class='mb-0 text-sm'>{$proyecto['nombre']}</h6>
+                                          </td>
+                                          <td>
+                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaInicio']}</p>
+                                          </td>
+                                          <td>
+                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaFinPrevista']}</p>
+                                          </td>
+                                          <td class='align-middle'>
+                                            <p class='text-center text-sm font-weight-bold mb-0'>{$proyecto['diasTranscurridos']}</p>
+                                          </td>
+                                            <td class='align-middle text-center'>
+                                                <div class='d-flex align-items-center justify-content-center'>
+                                                    <span class='me-2 text-xs font-weight-bold'>{$proyecto['porcentajeCompletado']}</span>
+                                                    <div>
+                                                        <div class='progress'>
+                                                            <div class='progress-bar bg-gradient-info' role='progressbar'
+                                                             aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: {$proyecto['porcentajeCompletado']};'></div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class='align-middle'>
-                                        <p class='text-center me-2 text-xs font-weight-bold'>{$proyecto['importancia']}</p>
-                                        </td>
-                                        <td class='align-middle d-flex justify-content-center align-items-center '>
-                                            <!--Botón para eliminar proyecto-->
-                                            <a href='controlador.php?accion=borrarProyecto&posicion{$proyecto['id']}'>
-                                            <i class='fa-solid fa-square-minus'></i></a>
-                                        </td>
-                                    </tr>");
+                                            </td>
+                                            <td class='align-middle'>
+                                            <p class='text-center me-2 mt-2 text-xs font-weight-bold'>{$proyecto['importancia']}</p>
+                                            </td>
+                                            <td class='align-middle text-center'>
+                                                <!--Botón para eliminar proyecto-->
+                                                <a href='controlador.php?accion=borrarProyecto&posicion={$proyecto['id']}'>
+                                                <i class='fa-solid fa-square-minus'></i></a>
+                                            </td>
+                                            <td class='align-middle text-center'>
+                                                <!--Botón para ver el proyecto-->
+                                                <a href='verProyecto.php?id={$proyecto['id']}'>
+                                                <i class='fa-solid fa-eye'></i></a>
+                                            </td>
+                                        </tr>");
+                            }
                         }
 
                     ?>
