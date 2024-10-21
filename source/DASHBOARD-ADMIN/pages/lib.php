@@ -86,11 +86,11 @@
         $_SESSION["proyectos"][] = $proyectoNuevo;
     }
 
-    /** Ponemos la sesión de los proyectos a null.
+    /** Ponemos en la sesion de los proyectos un array vacío.
      * @return void
      */
     function eliminarTodos(){
-        unset($_SESSION["proyectos"]);
+        $_SESSION["proyectos"] = array();
     }
 
     function cerrarSesion(){
