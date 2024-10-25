@@ -22,26 +22,42 @@
 <main>
     <div id="contenedor">
         <?php
-            echo('<a href="controlador.php?accion=sacarCarta"><img src="./cartas/dorso-rojo.svg" alt="" class="m-1"></a>');
+            if (isset($_SESSION["puntos"]) && $_SESSION["puntos"] >= 7.5){
+                echo('<a href="controlador.php?accion=sacarCarta" class="btn disabled border-0">
+                        <img src="./cartas/dorso-rojo.svg" alt=""></a>');
+            } else{
+                echo('<a href="controlador.php?accion=sacarCarta" class="m-1"><img src="./cartas/dorso-rojo.svg" alt=""></a>');
+            }
             if (isset($_SESSION["cartas"])) {
                 foreach ($_SESSION["cartas"] as $carta) {
                     echo('<img src="./' . $carta['imagen'] . '" alt="" class="m-1">');
                 }
             }
-
         ?>
     
     </div>
-    <div class="m-6">
-        <a href="controlador.php?accion=reiniciarJuego" class="btn btn-primary">Reiniciar</a>
+    <div class="d-flex">
+        <div class="m-2">
+            <a href="controlador.php?accion=reiniciarCartas" class="btn btn-primary">Reiniciar Cartas</a>
+        </div>
+        <div class="m-2">
+            <a href="controlador.php?accion=reiniciarJuego" class="btn btn-primary">Reiniciar Juego</a>
+        </div>
     </div>
     <div>
         <?php
-        if (isset($_SESSION["partidas"]) && isset($_SESSION["ganadas"]) && isset($_SESSION["perdidas"])){
+            if (isset($_SESSION["partidas"]) && isset($_SESSION["ganadas"]) && isset($_SESSION["perdidas"])){
         ?>
-        <p>Partidas: <?= $_SESSION["partidas"]; ?></p>
-        <p>Partidas Ganadas: <?= $_SESSION["ganadas"]; ?></p>
-        <p> PartidasPerdidas: <?= $_SESSION["perdidas"]; ?></p>
+                <div class="d-flex gap-4">
+                    <div class="d-flex flex-column gap-2">
+                        <strong>Puntos: <?= $_SESSION["puntos"] ?></strong>
+                        <strong>Partidas: <?= $_SESSION["partidas"]; ?></strong>
+                    </div>
+                    <div class="d-flex flex-column gap-2">
+                        <strong>Partidas Ganadas: <?= $_SESSION["ganadas"]; ?></strong>
+                        <strong> PartidasPerdidas: <?= $_SESSION["perdidas"]; ?></strong>
+                    </div>
+                </div>
         <?php
             }
         ?>

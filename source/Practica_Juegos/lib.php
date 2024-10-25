@@ -1,6 +1,6 @@
 <?php
     function generarBaraja(){
-        return array(
+        $baraja = array(
             array("valor" => 1, "palo" => "corazones", "imagen" => "cartas/c1.svg"),
             array("valor" => 2, "palo" => "corazones", "imagen" => "cartas/c2.svg"),
             array("valor" => 3, "palo" => "corazones", "imagen" => "cartas/c3.svg"),
@@ -45,23 +45,39 @@
             array("valor" => 0.5, "palo" => "treboles", "imagen" => "cartas/t12.svg"),
             array("valor" => 0.5, "palo" => "treboles", "imagen" => "cartas/t13.svg"),
         );
+        //Mezclamos la baraja.
+        shuffle($baraja);
+        return $baraja;
     }
 
-    /**Barajamos la baraja con el metodo "shuffle", la extraemos del principio y la devolvemos.
+    /**La extraemos del principio y la devolvemos.
      * @return mixed|null
      *
      */
     function sacarCarta(){
-        shuffle($_SESSION["baraja"]);
         return array_shift($_SESSION["baraja"]);
     }
 
     /**Vaciamos la sesión de cartas y volvemos a generar todas las cartas en la sesión de la baraja.
+     * Volvemos a poner los puntos a 0 para seguir jugando.
+     * @return void
+     */
+    function reiniciarCartas(){
+        $_SESSION["cartas"] = array();
+        $_SESSION["baraja"] = generarBaraja();
+        $_SESSION["puntos"] = 0;
+    }
+    /**Vaciamos la sesión de cartas, volvemos a generar todas las cartas en la sesión de la baraja y
+     * pones todos los puntos y partidas a 0 para volver a empezar el juego.
      * @return void
      */
     function reiniciarJuego(){
         $_SESSION["cartas"] = array();
         $_SESSION["baraja"] = generarBaraja();
+        $_SESSION["partidas"] = 0;
+        $_SESSION["perdidas"] = 0;
+        $_SESSION["ganadas"] = 0;
+        $_SESSION["puntos"] = 0;
     }
 
     /** Calculamos las partidas, ganadas, perdidas y el total de puntos.
@@ -79,15 +95,18 @@
         if (!isset($_SESSION["ganadas"])){
             $_SESSION["ganadas"] = 0;
         }
+
         foreach ($_SESSION["cartas"] as $carta) {
             $totalPuntos += $carta["valor"];
         }
+
         if ($totalPuntos > 7.5){
-            $_SESSION["partidas"]++;
             $_SESSION["perdidas"]++;
-        } else if ($totalPuntos == 7.5){
             $_SESSION["partidas"]++;
+        } else if ($totalPuntos == 7.5){
             $_SESSION["ganadas"]++;
+            $_SESSION["partidas"]++;
         }
+        $_SESSION["puntos"] = $totalPuntos;
 
     }
