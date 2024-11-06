@@ -32,15 +32,13 @@
         if (isset($_POST["formLogin"])){
             $email = $_POST["email"];
             $password = $_POST["password"];
-
+            $usuario = consultarUsuarioEmail($email);
             //Consultamos si el email ya esta registrado
-            if (consultarUsuarioEmail($email)){
-                //Comprobamo el password
-                $datos = consultarHash($email);
-                $passwordHash = $datos["password"];
-                if (password_verify($password, $passwordHash)){
+            if ($usuario){
+                //Comprobamos el password
+                if (password_verify($password, $usuario["password"])){
                     //Si ha funcionadolo metemos en la sesión
-                    $_SESSION["usuario"] = array("email" => $email, "id" => $datos["id"]);
+                    $_SESSION["usuario"] = array("email" => $email, "id" => $usuario["id"]);
                     header("location: proyectos.php"); //Redireccionamos a la página de proyectos
                 } else{
                     header("location: login.php?error=errorLogin");
@@ -49,6 +47,44 @@
                 header("location: login.php?error=errorLogin");
             }
         }
+
+        //Formulario para crear un nuevo proyecto
+        if(isset($_POST["formProyecto"])) {
+            $nombre = $_POST["nombre"];
+            $fechaInicio = $_POST["fechaInicio"];
+            $fechaFinPrevista = $_POST["fechaFinPrevista"];
+            $porcentaje = $_POST["porcentaje"];
+            $importancia = $_POST["importancia"];
+            $idUsuario = $_SESSION["usuario"]["id"];
+
+            $proyectoNuevo = crearProyecto($nombre, $fechaInicio, $fechaFinPrevista, $porcentaje, $importancia, $idUsuario);
+            if ($proyectoNuevo){
+                header("Location: proyectos.php");
+            } else{
+                header("Location: nuevoProyecto.php?error=errorCrearProyecto");
+            }
+
+        }
+
+    }
+
+    if ($_GET){
+        //-------------Eliminar proyectos----------------
+        if (isset($_GET["accion"]) && $_GET["accion"] == "borrarProyecto"){
+            $id = $_GET["id"];
+            $proyectoEliminado = eliminarProyecto($id);
+            if ($proyectoEliminado){
+                header("Location: proyectos.php");
+            } else{
+                header("Location: proyectos.php?error=errorEliminarProyecto");
+            }
+        }
+    }
+
+    //Cerramos la sesión
+    if (isset($_GET["accion"]) && $_GET["accion"] == "cerrarSesion"){
+        session_destroy();
+        header("Location: login.php");
     }
 
 

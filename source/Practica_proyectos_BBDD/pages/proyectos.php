@@ -1,5 +1,10 @@
 <?php
     include ('cabecera.php');
+    include ('modelo.php');
+    include ('lib.php');
+    if (isset($_SESSION["usuario"])) {
+        $proyectos = recuperarProyectos($_SESSION["usuario"]["id"]);
+    }
 ?>
     <!-- End Navbar -->
 
@@ -23,33 +28,33 @@
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Porcentaje Completado</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Importancia</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Eliminar Proyecto</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Ver Proyecto</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">Modificar Proyecto</th>
                     </tr>
                   </thead>
                   <tbody>
                     <?php
-                        if (isset($_SESSION["usuario"])) {
-                            foreach ($_SESSION["proyectos"] as $proyecto) {
+                        if (isset($proyectos)) {
+                            foreach ($proyectos as $proyecto) {
                                 echo("<tr>
                                           <td>
                                               <h6 class='mb-0 text-sm'>{$proyecto['nombre']}</h6>
                                           </td>
                                           <td>
-                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaInicio']}</p>
+                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fecha_inicio']}</p>
                                           </td>
                                           <td>
-                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fechaFinPrevista']}</p>
+                                            <p class='text-sm font-weight-bold mb-0'>{$proyecto['fecha_prevista']}</p>
                                           </td>
                                           <td class='align-middle'>
-                                            <p class='text-center text-sm font-weight-bold mb-0'>{$proyecto['diasTranscurridos']}</p>
+                                            <p class='text-center text-sm font-weight-bold mb-0'>".calcularDiasTranscurridos($proyecto['fecha_inicio'])."</p>
                                           </td>
                                             <td class='align-middle text-center'>
                                                 <div class='d-flex align-items-center justify-content-center'>
-                                                    <span class='me-2 text-xs font-weight-bold'>{$proyecto['porcentajeCompletado']}</span>
+                                                    <span class='me-2 text-xs font-weight-bold'>{$proyecto['porcentaje_completado']}</span>
                                                     <div>
                                                         <div class='progress'>
                                                             <div class='progress-bar bg-gradient-info' role='progressbar'
-                                                             aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: {$proyecto['porcentajeCompletado']};'></div>
+                                                             aria-valuenow='60' aria-valuemin='0' aria-valuemax='100' style='width: {$proyecto['porcentaje_completado']}%;'></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -59,13 +64,13 @@
                                             </td>
                                             <td class='align-middle text-center'>
                                                 <!--Botón para eliminar proyecto-->
-                                                <a href='controlador.php?accion=borrarProyecto&posicion={$proyecto['id']}'>
+                                                <a href='controlador.php?accion=borrarProyecto&id={$proyecto['id']}'>
                                                 <i class='fa-solid fa-square-minus'></i></a>
                                             </td>
                                             <td class='align-middle text-center'>
                                                 <!--Botón para ver el proyecto-->
                                                 <a href='verProyecto.php?id={$proyecto['id']}'>
-                                                <i class='fa-solid fa-eye'></i></a>
+                                                <i class='fa-solid fa-pen'></i></a>
                                             </td>
                                         </tr>");
                             }

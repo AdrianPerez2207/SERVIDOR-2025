@@ -7,7 +7,7 @@
         //Metemos en la sesión la conexión a BBDD
         try {
             $dsn = "mysql:host=mariadb;dbname=practica_proyectos;charset=utf8mb4";
-            $dbh = new PDO($dsn, 'usuario', 'usuario');
+            $dbh = new PDO($dsn, 'root', 'toor');
         } catch (PDOException $e) {
             echo "Error al conectar a la base de datos: " . $e->getMessage();
         }
@@ -29,7 +29,7 @@
         //Mostramos los resultados, fech() devuelve una fila cada vez que lo llamamos
         //El select es sobre un campo UNIQUE, va a devolver 1 o nada
         if ($fila = $stmt->fetch()){
-            return 1;
+            return $fila;
         } else{
             return 0;
         }
@@ -63,65 +63,67 @@
 
         return $id;
     }
+    /*
+     * Crea un nuevo proyecto
+     * Insertamos todos los valores introducidos
+     * Comprobamos las filas que han sido afectadas con rowCount(), si se ha ejecutado correctamente, devolvemos true,
+     * si no, devolvemos false.
+     */
 
-    function consultarHash($email){
+    function crearProyecto($nombre, $fechaInicio, $fechaFinPrevista, $porcentajeCompletado, $importancia, $idUsuario){
         $dbh = conectarBD();
-
-        $stmt = $dbh->prepare("SELECT password FROM usuario WHERE email=:email");
-        $stmt->bindParam(":email", $email);
-        //Devuelve los resultados como array asociativo
-        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $stmt = $dbh->prepare("INSERT INTO proyecto (nombre, fecha_inicio, fecha_prevista, porcentaje_completado,
+                       importancia, id_usuario) VALUES 
+                                                   (?, ?, ?, ?, ?, ?)");
+        $stmt->bindParam(1, $nombre);
+        $stmt->bindParam(2, $fechaInicio);
+        $stmt->bindParam(3, $fechaFinPrevista);
+        $stmt->bindParam(4, $porcentajeCompletado);
+        $stmt->bindParam(5, $importancia);
+        $stmt->bindParam(6, $idUsuario);
         //Ejecuta la acción
         $stmt->execute();
 
         $dbh = null;
-
-        //Devuelve el password como hash del usuario con ese email
-        if ($fila = $stmt->fetch()){
-            return $fila;
-        } else{
-            return null;
+        //rowCount() devuelve el número de filas afectadas por la consulta
+        if ($stmt->rowCount() == 1) {
+            return true;
+        } else {
+            return false;
         }
     }
 
-        /**
-         * Creamos los 5 primeros proyectos, para pintar los días transcurridos llamamos a la función calcularDiasTranscurridos.
-         * @return array[]
-         * @throws DateMalformedStringException
-         */
-        function proyectosInicio()
-        {
-            return array(
-                array("id" => 1, "nombre" => "EcoCasa", "fechaInicio" => "2024/01/01", "fechaFinPrevista" => "2024/06/30",
-                    "diasTranscurridos" => calcularDiasTranscurridos("2024/01/01"), "porcentajeCompletado" => "40%",
-                    "importancia" => "5"),
-                array("id" => 2, "nombre" => "App de Salud", "fechaInicio" => "2024/02/15", "fechaFinPrevista" => "2024/10/15",
-                    "diasTranscurridos" => calcularDiasTranscurridos("2024/02/15"), "porcentajeCompletado" => "25%",
-                    "importancia" => "4"),
-                array("id" => 3, "nombre" => "Rediseño Web", "fechaInicio" => "2024/03/01", "fechaFinPrevista" => "2024/09/01",
-                    "diasTranscurridos" => calcularDiasTranscurridos("2024/03/01"), "porcentajeCompletado" => "60%",
-                    "importancia" => "3"),
-                array("id" => 4, "nombre" => "Formación Interna", "fechaInicio" => "2024/04/10", "fechaFinPrevista" => "2024/12/10",
-                    "diasTranscurridos" => calcularDiasTranscurridos("2024/04/10"), "porcentajeCompletado" => "10%",
-                    "importancia" => "4"),
-                array("id" => 5, "nombre" => "Investigación de Mercado", "fechaInicio" => "2024/05/20", "fechaFinPrevista" => "2024/11/20",
-                    "diasTranscurridos" => calcularDiasTranscurridos("2024/05/20"), "porcentajeCompletado" => "5%",
-                    "importancia" => "2")
-            );
-        }
+    /**
+     * Recuperamos todos los proyectos generados por el usuario.
+     * Llamamos a la BBDD, cambiamos el modo de fetch para que nos devuelva un array asociativo.
+     * @param $idUsuario
+     * @return array|false
+     */
+    function recuperarProyectos($idUsuario){
+        $dbh = conectarBD();
+        $stmt = $dbh->prepare("SELECT * FROM proyecto WHERE id_usuario = :idUsuario");
+        $stmt->bindParam(":idUsuario", $idUsuario);
+        $stmt->execute();
+        //Devuelve los resultados como array asociativo
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $proyectos = $stmt->fetchAll();
+        return $proyectos;
+    }
 
-        /**
-         * Calculamos el número de dáis transcurridos entre la fecha de inicio y la fecha actual.
-         * Primero creamos la fecha actual y la fecha de inicio en formato DateTime.
-         * Luego calculamos el intervalo entre ambas fechas con diff y finalmente obtenemos el número de días transcurridos con format.
-         * @param $fechaInicio string
-         * @return string devuelve el número de días transcurridos
-         * @throws DateMalformedStringException
-         */
-        function calcularDiasTranscurridos($fechaInicio)
-        {
-            $fechaActual = new DateTime();
-            $fechaInicioCambiada = new DateTime($fechaInicio);
-            $intervalo = $fechaActual->diff($fechaInicioCambiada);
-            return $intervalo->format('%a');
+    /**
+     * Eliminamos un proyecto con el id especificado.
+     * @param $id
+     * @return bool
+     */
+    function eliminarProyecto($id){
+        $dbh = conectarBD();
+        $stmt = $dbh->prepare("DELETE FROM proyecto WHERE id = :id");
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
+        $dbh = null;
+        if ($stmt->rowCount() == 1){
+            return true;
+        } else{
+            return false;
         }
+    }

@@ -57,14 +57,6 @@
                     <span class="nav-link-text ms-1">Añadir Proyecto</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link text-white active bg-gradient-primary" href='controlador.php?accion=borrarTodos'>
-                    <div class="text-white text-center me-2 mb-1 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">-</i>
-                    </div>
-                    <span class="nav-link-text ms-1">Eliminar Todos</span>
-                </a>
-            </li>
         </ul>
     </div>
 
@@ -87,20 +79,27 @@
                         <input type="text" class="form-control">
                     </div>
                 </div>
-                <ul class="navbar-nav  justify-content-end">
-                    <li class="nav-item d-flex align-items-center m-3">
-                        <a href="login.php" class="nav-link text-body font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Iniciar Sesión</span>
-                        </a>
-                    </li>
-                    <li class="nav-item d-flex align-items-center">
-                        <a href='controlador.php?accion=cerrarSesion' class="nav-link text-body font-weight-bold px-0">
-                            <i class="fa fa-user me-sm-1"></i>
-                            <span class="d-sm-inline d-none">Cerrar Sesión</span>
-                        </a>
-                    </li>
-                </ul>
+                <?php
+                    if (isset($_SESSION["usuario"])) {
+                        echo("<ul class='navbar-nav  justify-content-end'>
+                                <li class='nav-item d-flex align-items-center'>
+                                    <a href='controlador.php?accion=cerrarSesion' class='nav-link text-body font-weight-bold px-0'>
+                                        <i class='fa fa-user me-sm-1'></i>
+                                        <span class='d-sm-inline d-none'>Cerrar Sesión</span>
+                                    </a>
+                                </li>
+                            </ul>");
+                    } else{
+                        echo("<ul class='navbar-nav  justify-content-end'>
+                                <li class='nav-item d-flex align-items-center'>
+                                    <a href='login.php' class='nav-link text-body font-weight-bold px-0'>
+                                        <i class='fa fa-user me-sm-1'></i>
+                                        <span class='d-sm-inline d-none'>Iniciar Sesión</span>
+                                    </a>
+                                </li>
+                            </ul>");
+                    }
+                ?>
             </div>
         </div>
     </nav>

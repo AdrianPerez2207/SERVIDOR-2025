@@ -40,10 +40,6 @@
                         </div>
                         <div class="card-body">
                             <form role="form" class="text-start" action="controlador.php" method="post">
-                                <div class="input-group input-group-outline my-3">
-                                    <label class="form-label">Id</label>
-                                    <input name="id" type="text" class="form-control" required>
-                                </div>
                                 <div class="input-group input-group-outline mb-3">
                                     <label class="form-label">Nombre</label>
                                     <input name="nombre" type="text" class="form-control" required>
