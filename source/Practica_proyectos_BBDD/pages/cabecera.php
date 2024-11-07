@@ -35,7 +35,7 @@
         <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/material-dashboard/pages/dashboard " target="_blank">
             <img src="../assets/img/logo-ct.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold text-white">Material Dashboard 2</span>
+            <span class="ms-1 font-weight-bold text-white">Proyectos BBDD</span>
         </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
@@ -68,21 +68,24 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Pages</a></li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Tables</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Proyectos</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">Tables</h6>
+                <h6 class="font-weight-bolder mb-0">Proyectos</h6>
             </nav>
             <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                    <div class="input-group input-group-outline">
-                        <label class="form-label">Type here...</label>
-                        <input type="text" class="form-control">
-                    </div>
-                </div>
                 <?php
                     if (isset($_SESSION["usuario"])) {
-                        echo("<ul class='navbar-nav  justify-content-end'>
-                                <li class='nav-item d-flex align-items-center'>
+                        echo("<div class='ms-md-auto pe-md-3'>
+                                <form action='proyectos.php' method='get' class='d-flex align-items-center gap-2'>
+                                    <div class='input-group input-group-outline mb-3'>
+                                        <label class='form-label'>Buscar proyecto...</label>
+                                        <input type='text' name='buscarProyecto' class='form-control'>
+                                    </div>
+                                    <button type='submit' class='btn btn-outline-secondary btn-sm d-flex justify-content-center'>Buscar</button>
+                                </form>
+                            </div> 
+                    <ul class='navbar-nav  justify-content-end'>
+                                <li class='nav-item d-flex align-items-center mb-3'>
                                     <a href='controlador.php?accion=cerrarSesion' class='nav-link text-body font-weight-bold px-0'>
                                         <i class='fa fa-user me-sm-1'></i>
                                         <span class='d-sm-inline d-none'>Cerrar Sesión</span>
@@ -90,8 +93,17 @@
                                 </li>
                             </ul>");
                     } else{
-                        echo("<ul class='navbar-nav  justify-content-end'>
-                                <li class='nav-item d-flex align-items-center'>
+                        echo("<div class='ms-md-auto pe-md-3'>
+                                <form action='proyectos.php' method='get' class='d-flex align-items-center gap-2' >
+                                    <div class='input-group input-group-outline mb-3'>
+                                        <label class='form-label'>Buscar proyecto...</label>
+                                        <input type='text' class='form-control' disabled>
+                                    </div>
+                                    <button type='submit' class='btn btn-outline-secondary btn-sm d-flex justify-content-center' disabled>Buscar</button>
+                                </form>
+                            </div>  
+                            <ul class='navbar-nav  justify-content-end'>
+                                <li class='nav-item d-flex align-items-center mb-3'>
                                     <a href='login.php' class='nav-link text-body font-weight-bold px-0'>
                                         <i class='fa fa-user me-sm-1'></i>
                                         <span class='d-sm-inline d-none'>Iniciar Sesión</span>

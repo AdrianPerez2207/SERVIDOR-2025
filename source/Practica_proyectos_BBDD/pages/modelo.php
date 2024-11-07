@@ -111,6 +111,21 @@
     }
 
     /**
+     * Recuperamos un proyecto con el id especificado.
+     * @param $idProyecto
+     * @return mixed
+     */
+    function recuperarProyecto($idProyecto){
+        $dbh = conectarBD();
+        $stmt = $dbh->prepare("SELECT * FROM proyecto WHERE id = :idProyecto");
+        $stmt->bindParam(":idProyecto", $idProyecto);
+        $stmt->execute();
+        //Devuelve un solo resultado
+        $proyectos = $stmt->fetch();
+        return $proyectos;
+    }
+
+    /**
      * Eliminamos un proyecto con el id especificado.
      * @param $id
      * @return bool
@@ -122,6 +137,56 @@
         $stmt->execute();
         $dbh = null;
         if ($stmt->rowCount() == 1){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    /**
+     * Buscamos un proyecto en la base de datos que coincida con el nombre del proyecto.
+     * @param $nombre
+     * @return array|false
+     */
+    function buscarProyecto($nombre){
+        $dbh = conectarBD();
+        $stmt = $dbh->prepare("SELECT * FROM proyecto WHERE nombre LIKE :nombre AND id_usuario = :id");
+        $stmt->bindParam(":id", $_SESSION["usuario"]["id"]);
+        //Consultamos el nombre sin importar lo que tenemos delante o detrás
+        $nombre = "%" . $nombre . "%";
+        $stmt->bindParam(":nombre", $nombre);
+        $stmt->execute();
+        //Devuelve los resultados como array asociativo
+        $stmt->setFetchMode(PDO::FETCH_ASSOC);
+        $resultado = $stmt->fetchAll();
+        $dbh = null;
+        return $resultado;
+    }
+
+    /**
+     * Modificamos un proyecto con el id especificado. Le pasamos los datos por parámetros.
+     * @param $idProyecto
+     * @param $nombre
+     * @param $fechaInicio
+     * @param $fechaFinPrevista
+     * @param $porcentaje
+     * @param $importancia
+     * @return bool
+     */
+    function modificarProyecto($idProyecto, $nombre, $fechaInicio, $fechaFinPrevista, $porcentaje, $importancia)
+    {
+        $dbh = conectarBD();
+        $stmt = $dbh->prepare("UPDATE proyecto SET nombre = :nombre, fecha_inicio = :fechaInicio, 
+                    fecha_prevista = :fechaFinPrevista, porcentaje_completado = :porcentaje, importancia = :importancia 
+                WHERE id = :idProyecto");
+        $stmt->bindParam(":nombre", $nombre);
+        $stmt->bindParam(":fechaInicio", $fechaInicio);
+        $stmt->bindParam(":fechaFinPrevista", $fechaFinPrevista);
+        $stmt->bindParam(":porcentaje", $porcentaje);
+        $stmt->bindParam(":importancia", $importancia);
+        $stmt->bindParam(":idProyecto", $idProyecto);
+        $stmt->execute();
+        if($stmt->rowCount() == 1) {
             return true;
         } else{
             return false;

@@ -66,6 +66,22 @@
 
         }
 
+        //Modificar un proyecto
+        if (isset($_POST["modificar"])){
+            $idProyecto = $_POST["id"];
+            $nombre = $_POST["nombre"];
+            $fechaInicio = $_POST["fecha_inicio"];
+            $fechaFinPrevista = $_POST["fecha_prevista"];
+            $porcentaje = $_POST["porcentaje_completado"];
+            $importancia = $_POST["importancia"];
+            $resultado = modificarProyecto($idProyecto, $nombre, $fechaInicio, $fechaFinPrevista, $porcentaje, $importancia);
+            if ($resultado) {
+                header("Location: proyectos.php");
+            } else {
+                header("Location: proyectos.php?error=errorModificarProyecto");
+            }
+        }
+
     }
 
     if ($_GET){
@@ -79,12 +95,12 @@
                 header("Location: proyectos.php?error=errorEliminarProyecto");
             }
         }
-    }
 
-    //Cerramos la sesión
-    if (isset($_GET["accion"]) && $_GET["accion"] == "cerrarSesion"){
-        session_destroy();
-        header("Location: login.php");
+        //Cerramos la sesión
+        if (isset($_GET["accion"]) && $_GET["accion"] == "cerrarSesion"){
+            session_destroy();
+            header("Location: login.php");
+        }
     }
 
 

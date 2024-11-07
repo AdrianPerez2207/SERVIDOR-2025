@@ -3,7 +3,11 @@
     include ('modelo.php');
     include ('lib.php');
     if (isset($_SESSION["usuario"])) {
-        $proyectos = recuperarProyectos($_SESSION["usuario"]["id"]);
+        if (isset($_GET["buscarProyecto"])){
+            $proyectos = buscarProyecto($_GET["buscarProyecto"]);
+        } else{
+            $proyectos = recuperarProyectos($_SESSION["usuario"]["id"]);
+        }
     }
 ?>
     <!-- End Navbar -->
@@ -13,7 +17,7 @@
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                <h6 class="text-white text-capitalize ps-3">Projects table</h6>
+                <h6 class="text-white text-capitalize ps-3">Proyectos</h6>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -68,8 +72,8 @@
                                                 <i class='fa-solid fa-square-minus'></i></a>
                                             </td>
                                             <td class='align-middle text-center'>
-                                                <!--Botón para ver el proyecto-->
-                                                <a href='verProyecto.php?id={$proyecto['id']}'>
+                                                <!--Botón para modificar el proyecto-->
+                                                <a href='modificarProyecto.php?id={$proyecto['id']}'>
                                                 <i class='fa-solid fa-pen'></i></a>
                                             </td>
                                         </tr>");
